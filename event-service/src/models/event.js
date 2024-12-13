@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class Event extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,37 +13,39 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  User.init({
-    firstName:{
+  Event.init({
+    name: {
       type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: false
+    },
+    date: {
+      type: DataTypes.DATE,
       allowNull: false,
     },
-    lastName:{
+    visibility: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
       validate: {
-        isEmail: true,
+        isIn: [['public', 'private']]
       }
-    },    
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
     },
-    role: {
-      type: DataTypes.STRING,
+    // createdBy is a foreign key that references the id column of the User model
+    createdBy: {
+      type: DataTypes.INTEGER,
       allowNull: false,
-      validate: {
-        isIn: [['admin', 'user']],
+      references: {
+        model: 'User',
+        key: 'id'
       }
     }
   }, {
     sequelize,
-    modelName: 'User',
+    modelName: 'Event',
   });
-  return User;
+  return Event;
 };

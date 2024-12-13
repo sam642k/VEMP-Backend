@@ -1,13 +1,5 @@
-const result = require('dotenv').config({ path: require('path').resolve(__dirname, '../../.env') });
+require('dotenv').config({ path: require('path').resolve(__dirname, '../../.env') });
 
-// if (result.error) {
-//   console.error('Error loading .env file:', result.error);
-// } else {
-//   console.log('.env file loaded successfully');
-// }
-
-// console.log(process.env.DB_USERNAME);
-// console.log(process.env.DB_PASSWORD);
 module.exports = {
   development: {
     username: process.env.DB_USERNAME,
